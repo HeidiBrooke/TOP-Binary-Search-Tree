@@ -187,6 +187,75 @@ const insert = (val, aTree) => {
         console.log(previous.right);
         return;
     }
+}
+
+const deleteVal = (val, aTree) => {
+    
+    if(aTree.root == null){
+        console.log('no nodes in tree!')
+        return;
+    }
+    //traverse until match
+    let current = aTree.root;
+    let previous;
+    let side;
+    while((current !== null) && (current !== undefined)){
+        console.log('in the while loop!')
+        if(val !== current.key){
+            if(val > current.key){
+                console.log(val + ' is bigger than ' + current.key)
+                //go right
+                side = 'right';
+                previous = current;
+                current = current.right;
+            }
+            else {
+                //go left
+                side = 'left';
+                previous = current;
+                current = current.left
+            }
+        }
+        else{
+            if((current.right == null) && (current.left == null)){
+                if(side === 'left'){
+                    previous.left = null;
+                    return;
+                }
+                else{
+                    previous.right = null;
+                    return;
+                }
+            }
+            if((current.right !== null) && (current.left !== null)){
+                //got to right child, then traverse left until empty
+                let byeNode = current;
+                current = current.right;
+                while(current.left !== null){
+                    previous = current;
+                    current = current.left;
+                }
+                byeNode.key = current.key;
+                previous.left = current.right;
+                return;
+            }
+            else{
+                if(current.left !== null){
+                    previous.left = current.left;
+                    return;
+                }
+                else{
+                    previous.right = current.right;
+                    return;
+                }
+
+            }
+
+        }
+        
+        
+    }
+    return 'no match!';
 
 }
 
@@ -202,5 +271,9 @@ prettyPrint(testTree.root);
 insert(14, testTree);
 prettyPrint(testTree.root);
 insert(3.5, testTree);
+prettyPrint(testTree.root);
+deleteVal(3.5, testTree);
+prettyPrint(testTree.root);
+deleteVal(5, testTree);
 prettyPrint(testTree.root);
 
