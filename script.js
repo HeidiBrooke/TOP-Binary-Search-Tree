@@ -145,7 +145,46 @@ const buildTree = (array, sorted) => {
 
 const tree = (array) => {
     let root = buildTree(array, 0); 
-return{root}
+
+    const find = (val) => {
+        let current = root;
+        if(current.key === val){
+            return current;
+        }
+        while(current !== null){
+                //console.log('in the while loop!')
+                if(val !== current.key){
+                    if(val > current.key){
+                        //console.log(val + ' is bigger than ' + current.key);
+                        if(current.right !== null){
+                            //console.log('the right child is ' + current.right.key);
+                            current = current.right; 
+                        }
+                        else{
+                            return 'no match';
+                        }
+                        
+                    }
+                    else {
+                        if(current.left !== null){
+                            current = current.left;
+                        }
+                        else{
+                            return 'no match';
+                        }
+                        
+                    }
+                     
+                }
+                else{
+                    return current;
+                }
+                
+        }
+        return 'no match';
+    }
+
+    return{root, find}
 }
 
 const insert = (val, aTree) => {
@@ -259,6 +298,8 @@ const deleteVal = (val, aTree) => {
 
 }
 
+
+
 const testArray = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
 const testArray2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 //console.log(mergeS(testArray));
@@ -275,5 +316,10 @@ prettyPrint(testTree.root);
 deleteVal(3.5, testTree);
 prettyPrint(testTree.root);
 deleteVal(5, testTree);
+prettyPrint(testTree.root);
+console.log(testTree.find(14));
+console.log(testTree.find(15));
+console.log(testTree.find(6));
+console.log(testTree.find(1));
 prettyPrint(testTree.root);
 
