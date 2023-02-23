@@ -184,7 +184,89 @@ const tree = (array) => {
         return 'no match';
     }
 
-    return{root, find}
+   
+    const levelOrder2 = (aNode, aNode2, stored) => {
+        console.log('aNode is ' + aNode);
+        console.log('aNode2 is ' + aNode2);
+        if(aNode !== undefined){
+        if(aNode !== null){
+            if(!stored.includes(aNode)){
+                console.log('pushing ' + aNode.key);
+                stored.push(aNode);
+            }
+            if(!stored.includes(aNode.left)){
+                if(aNode.left !== null){
+                    console.log('pushing ' + aNode.left.key);
+                    stored.push(aNode.left);
+                }
+            }
+            if(!stored.includes(aNode.right)){
+                if(aNode.right !== null){
+                    console.log('pushing ' + aNode.right.key);
+                    stored.push(aNode.right);
+                }
+                
+            } 
+        }
+    }
+    if(aNode2!== undefined){
+        if(aNode2 !== null){
+            if(!stored.includes(aNode2)){
+                console.log('pushing ' + aNode2.key);
+                stored.push(aNode2);
+            }
+            if(!stored.includes(aNode2.left)){
+                if(aNode2.left !== null){
+                    console.log('pushing ' + aNode2.left.key);
+                    stored.push(aNode2.left);
+                }
+            }
+            if(!stored.includes(aNode2.right)){
+                if(aNode2.right !== null){
+                    console.log('pushing ' + aNode2.right.key);
+                    stored.push(aNode2.right);
+                }
+                
+            } 
+        }
+    }
+    if((aNode !== null) && (aNode !== undefined)){
+        if((aNode.left !== (null || undefined)) && (aNode.right !== (null || undefined))){
+            levelOrder2(aNode.left, aNode.right, stored);
+        }
+        if(aNode.left !== (null || undefined)){
+            levelOrder2(aNode.left, undefined, stored);
+        }
+        else{
+            levelOrder2(undefined, aNode.right, stored);
+        }
+    }
+    if((aNode2 !== null) && (aNode2 !== undefined)){
+        if((aNode2.left !== (null || undefined)) && (aNode2.right !== (null || undefined))){
+            levelOrder2(aNode2.left, aNode2.right, stored);
+        }
+        if(aNode2.left !== (null || undefined)){
+            levelOrder2(aNode2.left, undefined, stored);
+        }
+        else{
+            levelOrder2(undefined, aNode2.right, stored);
+        }
+    }
+    
+        return stored;
+    }
+
+    const levelOrder = (func) =>{
+        let storage = [];
+        storage = levelOrder2(root, undefined, storage);
+        if(func !== undefined){
+            storage.forEach(nodeItem => 
+                nodeItem.func())
+        }
+        return storage;
+    }
+
+    return{root, find, levelOrder}
 }
 
 const insert = (val, aTree) => {
@@ -322,4 +404,5 @@ console.log(testTree.find(15));
 console.log(testTree.find(6));
 console.log(testTree.find(1));
 prettyPrint(testTree.root);
+console.log(testTree.levelOrder());
 
