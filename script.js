@@ -266,8 +266,37 @@ const tree = (array) => {
         return storage;
     }
 
-    return{root, find, levelOrder}
+    const inOrder2 = (aNode, storage) => {
+        if(aNode !== null){
+            console.log(aNode.key)
+            if(aNode.left == null){
+                storage.push(aNode.key); 
+            }
+            else{
+                inOrder2(aNode.left, storage);
+                storage.push(aNode.key); 
+            }
+            if(aNode.right !== null){
+                inOrder2(aNode.right, storage);
+            }
+        }
+        
+        return storage;
+    }
+
+    const inOrder = (func) =>{
+        let storage = [];
+        storage = inOrder2(root, storage);
+        if(func !== undefined){
+            storage.forEach(nodeItem => 
+                nodeItem.func())
+        }
+        return storage;
+    }
+
+    return{root, find, levelOrder, inOrder}
 }
+
 
 const insert = (val, aTree) => {
     //traverse tree going higher or lower, add as leaf
@@ -404,5 +433,5 @@ console.log(testTree.find(15));
 console.log(testTree.find(6));
 console.log(testTree.find(1));
 prettyPrint(testTree.root);
-console.log(testTree.levelOrder());
+console.log(testTree.inOrder());
 
