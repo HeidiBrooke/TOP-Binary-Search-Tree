@@ -294,7 +294,61 @@ const tree = (array) => {
         return storage;
     }
 
-    return{root, find, levelOrder, inOrder}
+    const preOrder2 = (aNode, storage) => {
+        if(aNode !== null){
+            //console.log(aNode.key)
+            storage.push(aNode.key);
+            if(aNode.left !== null){
+                preOrder2(aNode.left, storage); 
+            }
+            if(aNode.right !== null){
+                //storage.push(aNode.key);
+                preOrder2(aNode.right, storage);
+            }
+        }
+        
+        return storage;
+    }
+
+    const preOrder = (func) => {
+        let storage = [];
+        storage = preOrder2(root, storage);
+        if(func !== undefined){
+            storage.forEach(nodeItem => 
+                nodeItem.func())
+        }
+        return storage;
+
+    }
+
+    const postOrder2 = (aNode, storage) => {
+        if(aNode !== null){
+            //console.log(aNode.key)
+            if(aNode.left !== null){
+                postOrder2(aNode.left, storage); 
+            }
+            if(aNode.right !== null){
+                //storage.push(aNode.key);
+                postOrder2(aNode.right, storage);
+                storage.push(aNode.key);
+            }
+        }
+        
+        return storage;
+    }
+
+    const postOrder = (func) => {
+        let storage = [];
+        storage = postOrder2(root, storage);
+        if(func !== undefined){
+            storage.forEach(nodeItem => 
+                nodeItem.func())
+        }
+        return storage;
+
+    }
+
+    return{root, find, levelOrder, inOrder, preOrder, postOrder}
 }
 
 
@@ -433,5 +487,5 @@ console.log(testTree.find(15));
 console.log(testTree.find(6));
 console.log(testTree.find(1));
 prettyPrint(testTree.root);
-console.log(testTree.inOrder());
+console.log(testTree.preOrder());
 
