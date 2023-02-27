@@ -348,7 +348,33 @@ const tree = (array) => {
 
     }
 
-    return{root, find, levelOrder, inOrder, preOrder, postOrder}
+    const height = (aNode) => {
+        let leftPath;
+        let rightPath;
+        if(aNode.left !== null){
+            leftPath = 1 + height(aNode.left);
+        }
+        else {
+            leftPath = 0;
+        }
+        if(aNode.right !== null){
+            rightPath = 1 + height(aNode.right);
+        }
+        else {
+            rightPath = 0;
+        }
+        if(leftPath == rightPath){
+            return leftPath;
+        }
+        if (leftPath > rightPath){
+            return leftPath;
+            }
+        else{
+            return rightPath;
+            }
+    }
+
+    return{root, find, levelOrder, inOrder, preOrder, postOrder, height}
 }
 
 
@@ -484,8 +510,9 @@ deleteVal(5, testTree);
 prettyPrint(testTree.root);
 console.log(testTree.find(14));
 console.log(testTree.find(15));
-console.log(testTree.find(6));
+const node8 = testTree.find(8);
 console.log(testTree.find(1));
 prettyPrint(testTree.root);
 console.log(testTree.preOrder());
+console.log(testTree.height(node8));
 
