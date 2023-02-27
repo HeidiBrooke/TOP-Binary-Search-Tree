@@ -374,7 +374,39 @@ const tree = (array) => {
             }
     }
 
-    return{root, find, levelOrder, inOrder, preOrder, postOrder, height}
+    const depthRecur = (aNode, akey) => {
+        if(aNode.key < akey){
+            if(aNode.right !== null){
+                return 1 + depthRecur(aNode.right, akey);
+            }
+            else{
+                return 'node not in tree';
+            } 
+        }
+        if(aNode.key > akey){
+            if(aNode.left !== null){
+                return 1 + depthRecur(aNode.left, akey);
+             }
+             else{
+                 return 'node not in tree';
+             } 
+        }
+        else {
+            return 0;
+        }
+    }
+
+    const depth = (aNode) => {
+        let akey = aNode.key;
+        if(aNode.key == root.key){
+            return 0;
+        }
+        else {
+            return depthRecur(root, akey);
+        }
+    }
+
+    return{root, find, levelOrder, inOrder, preOrder, postOrder, height, depth}
 }
 
 
@@ -508,11 +540,12 @@ deleteVal(3.5, testTree);
 prettyPrint(testTree.root);
 deleteVal(5, testTree);
 prettyPrint(testTree.root);
-console.log(testTree.find(14));
+const node14 = testTree.find(14);
 console.log(testTree.find(15));
 const node8 = testTree.find(8);
-console.log(testTree.find(1));
+const node1 = testTree.find(1);
 prettyPrint(testTree.root);
 console.log(testTree.preOrder());
 console.log(testTree.height(node8));
+console.log(testTree.depth(node1));
 
