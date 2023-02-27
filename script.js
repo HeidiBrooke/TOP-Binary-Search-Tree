@@ -406,7 +406,56 @@ const tree = (array) => {
         }
     }
 
-    return{root, find, levelOrder, inOrder, preOrder, postOrder, height, depth}
+    const isBalancedRecur = (aNode) => {
+        console.log(aNode.key);
+        let leftHeight;
+        let leftBalanced;
+        if(aNode.left == null){
+            leftHeight = -1;
+            leftBalanced = true;
+        }
+        else{
+            leftHeight = height(aNode.left);
+            leftBalanced = isBalancedRecur(aNode.left);
+        }
+        let rightHeight;
+        let rightBalanced;
+        if(aNode.right == null){
+            rightHeight = -1;
+            rightBalanced = true;
+        }
+        else{
+            rightHeight = height(aNode.right);
+            rightBalanced = isBalancedRecur(aNode.right);
+        }
+        let myHeight = Math.max(leftHeight, rightHeight) + 1;
+        let treeDiff = Math.abs(leftHeight - rightHeight);
+        let myBalance;
+        if(treeDiff < 1){
+            myBalance = true;
+            return myHeight;
+        }
+        else{
+            myBalance = false;
+            return myBalance;
+        }
+    }
+
+    const isBalanced = () => {
+        let balanced;
+        if(root == null){
+            return true;
+        }
+        balanced = isBalancedRecur(root);
+        if(balanced !== false){
+            return true;
+        }
+        else{
+            return balanced;
+        }
+    }
+
+    return{root, find, levelOrder, inOrder, preOrder, postOrder, height, depth, isBalanced}
 }
 
 
@@ -527,7 +576,7 @@ const testArray = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
 const testArray2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 //console.log(mergeS(testArray));
 const testTree = tree(testArray);
-//const testTree2 = tree(testArray2);
+const testTree2 = tree(testArray2);
 console.log('tree root node is: ')
 console.log(testTree.root);
 //console.log(testTree.root.left.left);
@@ -548,4 +597,7 @@ prettyPrint(testTree.root);
 console.log(testTree.preOrder());
 console.log(testTree.height(node8));
 console.log(testTree.depth(node1));
+console.log(testTree.isBalanced());
+prettyPrint(testTree2.root);
+console.log(testTree2.isBalanced());
 
