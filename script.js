@@ -144,10 +144,10 @@ const buildTree = (array, sorted) => {
     return root;
 }
 
-function createTree(root){
-const tree = {
-    root, 
-    find(val){
+const tree = (array) => {
+    let root = buildTree(array, 0); 
+
+    const find = (val) => {
         let current = root;
         if(current.key === val){
             return current;
@@ -183,10 +183,10 @@ const tree = {
                 
         }
         return 'no match';
-    },
+    }
 
    
-    levelOrder2(aNode, aNode2, stored){
+    const levelOrder2 = (aNode, aNode2, stored) => {
         console.log('aNode is ' + aNode);
         console.log('aNode2 is ' + aNode2);
         if(aNode !== undefined){
@@ -255,9 +255,9 @@ const tree = {
     }
     
         return stored;
-    },
+    }
 
-    levelOrder(func){
+    const levelOrder = (func) =>{
         let storage = [];
         storage = levelOrder2(root, undefined, storage);
         if(func !== undefined){
@@ -265,9 +265,9 @@ const tree = {
                 nodeItem.func())
         }
         return storage;
-    },
+    }
 
-    inOrder2(aNode, storage){
+    const inOrder2 = (aNode, storage) => {
         if(aNode !== null){
             console.log(aNode.key)
             if(aNode.left == null){
@@ -283,9 +283,9 @@ const tree = {
         }
         
         return storage;
-    },
+    }
 
-    inOrder(func){
+    const inOrder = (func) =>{
         let storage = [];
         storage = inOrder2(root, storage);
         if(func !== undefined){
@@ -293,9 +293,9 @@ const tree = {
                 nodeItem.func())
         }
         return storage;
-    },
+    }
 
-    preOrder2(aNode, storage){
+    const preOrder2 = (aNode, storage) => {
         if(aNode !== null){
             //console.log(aNode.key)
             storage.push(aNode.key);
@@ -309,9 +309,9 @@ const tree = {
         }
         
         return storage;
-    },
+    }
 
-    preOrder (func) {
+    const preOrder = (func) => {
         let storage = [];
         storage = preOrder2(root, storage);
         if(func !== undefined){
@@ -320,9 +320,9 @@ const tree = {
         }
         return storage;
 
-    },
+    }
 
-    postOrder2 (aNode, storage){
+    const postOrder2 = (aNode, storage) => {
         if(aNode !== null){
             //console.log(aNode.key)
             if(aNode.left !== null){
@@ -336,9 +336,9 @@ const tree = {
         }
         
         return storage;
-    },
+    }
 
-    postOrder(func){
+    const postOrder = (func) => {
         let storage = [];
         storage = postOrder2(root, storage);
         if(func !== undefined){
@@ -347,9 +347,9 @@ const tree = {
         }
         return storage;
 
-    },
+    }
 
-    height(aNode){
+    const height = (aNode) => {
         let leftPath;
         let rightPath;
         if(aNode.left !== null){
@@ -373,9 +373,9 @@ const tree = {
         else{
             return rightPath;
             }
-    },
+    }
 
-    depthRecur(aNode, akey){
+    const depthRecur = (aNode, akey) => {
         if(aNode.key < akey){
             if(aNode.right !== null){
                 return 1 + depthRecur(aNode.right, akey);
@@ -395,9 +395,9 @@ const tree = {
         else {
             return 0;
         }
-    },
+    }
 
-    depth(aNode){
+    const depth = (aNode) => {
         let akey = aNode.key;
         if(aNode.key == root.key){
             return 0;
@@ -405,9 +405,9 @@ const tree = {
         else {
             return depthRecur(root, akey);
         }
-    },
+    }
 
-    isBalancedRecur(aNode){
+    const isBalancedRecur = (aNode) => {
         console.log(aNode.key);
         let leftHeight;
         let leftBalanced;
@@ -440,9 +440,9 @@ const tree = {
             myBalance = false;
             return myBalance;
         }
-    },
+    }
 
-    isBalanced(){
+    const isBalanced = () => {
         let balanced;
         if(root == null){
             return true;
@@ -454,26 +454,25 @@ const tree = {
         else{
             return balanced;
         }
-    },
-
-    rebalance() {
-        console.log('****REBALANCING****');
-        let balanced = isBalanced()
-        if(balanced == false) {
-            let orderedArray = inOrder();
-            this.root =  buildTree(orderedArray, 1);
-            prettyPrint(root);
-            return;
-        }
-        return;
     }
-  
-};
-    const rebalanceTree = tree.rebalance.bind(tree);
 
-    return{...tree, rebalance: rebalanceTree};
+    
+
+    return{root, find, levelOrder, inOrder, preOrder, postOrder, height, depth, isBalanced}
 }
 
+const rebalance = (aTree) => {
+    
+    console.log('****REBALANCING****');
+    let balanced = aTree.isBalanced();
+    if(balanced == false) {
+        let orderedArray = aTree.inOrder();
+        aTree.root =  buildTree(orderedArray, 1);
+        prettyPrint(aTree.root);
+        return;
+    }
+    return;
+}
 
 
 const insert = (val, aTree) => {
@@ -592,8 +591,8 @@ const deleteVal = (val, aTree) => {
 const testArray = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
 const testArray2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 //console.log(mergeS(testArray));
-const testTree = createTree(buildTree(testArray));
-const testTree2 = createTree(buildTree(testArray2));
+const testTree = tree(testArray);
+const testTree2 = tree(testArray2);
 console.log('tree root node is: ')
 console.log(testTree.root);
 //console.log(testTree.root.left.left);
@@ -617,7 +616,7 @@ console.log(testTree.depth(node1));
 console.log(testTree.isBalanced());
 prettyPrint(testTree2.root);
 console.log(testTree2.isBalanced());
-testTree.rebalance();
+rebalance(testTree);
 console.log(testTree.root);
 //prettyPrint(testTree.root);
 
